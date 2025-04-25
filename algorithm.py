@@ -77,3 +77,16 @@ voting_model = VotingRegressor(estimators=[
 ])
 voting_model.fit(X_train, y_train)
 
+# Task 2 - C1: Evaluate
+
+# Predict on the test set using the voting model
+y_pred = voting_model.predict(X_test)
+
+# Evaluate the model using two metrics
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+# Print the evaluation results
+print("Evaluation Metrics for Task 2 - C1:")
+print(f"Mean Squared Error (MSE): {mse:.4f}")
+print(f"R-squared Score (R²): {r2:.4f}")
