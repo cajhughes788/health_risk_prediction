@@ -65,3 +65,14 @@ xgb_model.fit(
     eval_set=[(X_test, y_test)],
     verbose=False
 )
+
+# Task 2 - B2: Regularization
+xgb_model = xgb.XGBRegressor(
+    objective='reg:squarederror',
+    learning_rate=0.05,
+    n_estimators=200,
+    max_depth=5,
+    early_stopping_rounds=10,
+    reg_lambda=1.0,   # helps prevent overfitting
+    reg_alpha=0.5     # makes the model simpler
+)
