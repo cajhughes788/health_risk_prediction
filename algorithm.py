@@ -36,6 +36,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1, max_depth=5)
 model.fit(X_train, y_train)
 
+# Task 1 - D3: Interpretation of evaluation metrics in report
+
 # Task 2: B1 Update XGBoost model with basic optimization
 xgb_model = xgb.XGBRegressor(
     objective='reg:squarederror',
