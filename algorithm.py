@@ -90,3 +90,5 @@ r2 = r2_score(y_test, y_pred)
 print("Evaluation Metrics for Task 2 - C1:")
 print(f"Mean Squared Error (MSE): {mse:.4f}")
 print(f"R-squared Score (R²): {r2:.4f}")
+
+# Task 2 - C2: completed model performance comparison in report
