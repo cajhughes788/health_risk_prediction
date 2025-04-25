@@ -5,6 +5,7 @@
 import pandas as pd
 import xgboost as xgb
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
 
 # Load the dataset from the Excel file
 df = pd.read_excel("DQN1 Dataset.xlsx")
@@ -35,21 +36,6 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1, max_depth=5)
 model.fit(X_train, y_train)
 
-#Task 1 - C1: Predict on the test set
-y_pred = model.predict(X_test)
-
-# Task 1 - D2
-from sklearn.metrics import mean_squared_error, r2_score
-
-# Task 1 - D2: Evaluate the model using two metrics
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-# Task 1 - D2: Print the evaluation results
-print("Evaluation Metrics for Task D2:")
-print(f"Mean Squared Error (MSE): {mse:.4f}")
-print(f"R-squared Score (R²): {r2:.4f}")
-
 # Task 2: B1 Update XGBoost model with basic optimization
 xgb_model = xgb.XGBRegressor(
     objective='reg:squarederror',
@@ -67,12 +53,27 @@ xgb_model.fit(
 )
 
 # Task 2 - B2: Regularization
-xgb_model = xgb.XGBRegressor(
+# Note: This model is used for ensemble so early stopping is removed
+xgb_for_ensemble = xgb.XGBRegressor(
     objective='reg:squarederror',
     learning_rate=0.05,
     n_estimators=200,
     max_depth=5,
-    early_stopping_rounds=10,
     reg_lambda=1.0,   # helps prevent overfitting
     reg_alpha=0.5     # makes the model simpler
 )
+xgb_for_ensemble.fit(X_train, y_train)
+
+# Task 2 - B3: Apply two ensemble learning techniques
+from sklearn.ensemble import RandomForestRegressor, VotingRegressor
+
+# Train a basic Random Forest model
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X_train, y_train)
+
+# Combine XGBoost and Random Forest using Voting Regressor
+voting_model = VotingRegressor(estimators=[
+    ('xgb', xgb_for_ensemble), ('rf', rf_model)
+])
+voting_model.fit(X_train, y_train)
+
