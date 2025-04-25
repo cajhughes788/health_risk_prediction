@@ -79,7 +79,7 @@ voting_model.fit(X_train, y_train)
 
 # Task 2 - C1: Evaluate
 
-# Predict on the test set using the voting model
+# (originally Task 1 - C2) Predict on the test set using the voting model
 y_pred = voting_model.predict(X_test)
 
 # Evaluate the model using two metrics
